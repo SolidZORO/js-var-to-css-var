@@ -1,0 +1,10 @@
+node_modules
+*.md
+/build
+/build-test
+/build-local
+/lib
+/dist
+
+/tsconfig.json
+/tsconfig.extend.json

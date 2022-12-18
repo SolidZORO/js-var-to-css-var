@@ -1,0 +1,63 @@
+{
+  "name": "js-var-to-css-var",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "sideEffect": false,
+  "author": "Jason Feng <solidzoro@live.com>",
+  "description": "Convert Js Var To CSS Var",
+  "license": "MIT",
+  "homepage": "https://github.com/SolidZORO/js-var-to-css-var",
+  "bin": {
+    "js-var-to-css-var": "./lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SolidZORO/js-var-to-css-var.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SolidZORO/js-var-to-css-var/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "scripts": {
+    "-------------------------------- TOOL ----": "----",
+    "versionup": "standard-version -r patch",
+    "versionup:minor": "standard-version -r minor",
+    "versionup:major": "standard-version -r major",
+    "versionup:init": "standard-version --first-release",
+    "-------------------------------- TEST ----": "----",
+    "test-output--ts": "node ./__tests__/test-output--ts.ts",
+    "test-output--js": "node ./__tests__/test-output--js.js",
+    "test-output--js-by-ts-node": "node ./__tests__/test-output--js-by-ts-node.ts",
+    "test-output--all": "yarn test-output--js && yarn test-output--ts && yarn test-output--js-by-ts-node",
+    "dev": "tsc --watch",
+    "-------------------------------- PROD ----": "----",
+    "release-beta": "npm publish --dist-tag --tag beta",
+    "release": "npm publish --dist-tag"
+  },
+  "keywords": [
+    "js",
+    "less",
+    "vars",
+    "var",
+    "css",
+    "convert",
+    "webpack",
+    "plugin",
+    "webpack-plugin"
+  ],
+  "devDependencies": {
+    "@types/node": "^18.11.17",
+    "prettier": "^2.8.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {}
+}
