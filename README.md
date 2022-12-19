@@ -1,6 +1,6 @@
 # js-var-to-css-var
 
-Convert Js Var To CSS Var (Less Var)
+Generate CSS/LESS variables and TS Types from JS/TS.
 
 [![version][npm-img]][npm-url]
 [![license][mit-img]][mit-url]
