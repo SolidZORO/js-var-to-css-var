@@ -7,8 +7,6 @@ import { genType } from './genType';
 
 export const jsVarToCssVar = (optsList?: IJsVarToCssVarOpts[]) => {
   optsList?.forEach((opts) => {
-    console.log(opts);
-
     let inputPath = undefined;
     if (opts?.inputPath) inputPath = opts.inputPath;
     if (!inputPath) throw new Error('Missing opts.inputPath!');

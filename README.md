@@ -24,23 +24,25 @@ yarn add js-var-to-css-var
 const jsVarToCssVar = require('js-var-to-css-var');
 
 jsVarToCssVar({
-  inputPath: `${CUR_DIR}/styles/style--ts.ts`,
+  inputPath: `${CUR_DIR}/styles/style--js-1.js`,
   //
-  outputCssPath: `${CUR_DIR}/_output--ts/theme.css`,
+  outputCssPath: `${CUR_DIR}/_output--js/style--css-1.css`,
   outputCssScopeTag: ':root',
   //
-  outputLessPath: `${CUR_DIR}/_output--ts/theme.less`, // [Optional]
+  outputLessPath: `${CUR_DIR}/_output--js/style--less-1.less`,  // [Optional]
   outputLessHeaderImport: `@import './variables.less';`, // [Optional]
   //
+  outputTypePath: `${CUR_DIR}/_output--js/style--type-1.ts`,  // [Optional]
+  outputTypeName: 'ITheme1',  // [Optional]
 });
 
 ```
 
 
-### for Node Cil (TODO)
+### for Node Cil
 
 ```bash
-N/A
+TODO
 ```
 
 ## Result
@@ -62,6 +64,8 @@ export const THEME_JS_FONT = {
 
 Output
 
+css
+
 ```css
 :root {
   --color-red: #f99;
@@ -72,6 +76,8 @@ Output
 }
 ```
 
+less
+
 ```less
 @import './variables.less';
 
@@ -80,7 +86,57 @@ Output
 @font-size-xs: 12px;
 @font-size-md: 18px;
 @font-size-lg: 24px;
+```
 
+type
+
+```typescript
+export type ITheme1 =
+  | '--color-red'
+  | '--color-blue'
+  | '--theme-light'
+  | '--theme-dark'
+  | '--font-size-xs'
+  | '--font-size-md'
+  | '--font-size-lg'
+```
+
+## Real World
+
+sample
+
+```typescript jsx
+import { IGlobalCssVars } from '@/styles/vars/global-css-vars--type';
+import { IOverwriteAntdVars } from '@/styles/vars/overwrite-antd-vars--type';
+
+type ICssVars = IGlobalCssVars | IOverwriteAntdVars | string;
+
+export const getCssVar = (cssVar: ICssVars): string => {
+  return getComputedStyle(document.documentElement).getPropertyValue(cssVar);
+};
+
+// use getCssVar Fn
+// getCssVar('--font    <-- here have IDE hint all css vars
+
+```
+
+watch `style.ts` file cahnge (use webpack plugin)
+
+```js
+const WatchFileAndRunCallbackWebpackPlugin = require('watch-file-change-and-run-callback-webpack-plugin');
+
+webpackConfig.plugins.push(
+  new WatchFileAndRunCallbackWebpackPlugin({
+    matchs: [
+      {
+        filePath: `${SRC_DIR}/styles/vars/global-css-vars.ts`,
+        callback: () => {
+          syncStyleCssVar(SRC_DIR);
+        },
+      },
+    ],
+  }),
+);
 ```
 
 
