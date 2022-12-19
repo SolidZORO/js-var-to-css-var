@@ -4,7 +4,9 @@ export interface IJsKv {
 export interface IJsVarToCssVarOpts {
     inputPath?: string;
     outputCssPath?: string;
+    outputCssScopeTag?: string;
     outputLessPath?: string;
-    cssScopeTag?: string;
-    lessHeaderImport?: string;
+    outputLessHeaderImport?: string;
+    outputTypePath?: string;
+    outputTypeName?: string;
 }

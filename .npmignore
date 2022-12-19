@@ -4,6 +4,10 @@
 *~
 node_modules
 
+# Repo
+/src
+/__tests__
+
 # Compiled
 /.cache
 /_cache

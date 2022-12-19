@@ -18,7 +18,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
 //    "noEmit": true,

@@ -3,50 +3,62 @@ const path = require('path');
 import { IJsKv, IJsVarToCssVarOpts } from './types';
 import { genCss } from './genCss';
 import { genLess } from './genLess';
+import { genType } from './genType';
 
-export const jsVarToCssVar = (opts?: IJsVarToCssVarOpts) => {
-  let inputPath = undefined;
-  if (opts?.inputPath) inputPath = opts.inputPath;
-  if (!inputPath) throw new Error('Missing opts.inputPath!');
+export const jsVarToCssVar = (optsList?: IJsVarToCssVarOpts[]) => {
+  optsList?.forEach((opts) => {
+    console.log(opts);
 
-  const fileExt: '.ts' | '.js' = path.extname(inputPath);
-  if (!fileExt) throw new Error('Missing fileExt!');
+    let inputPath = undefined;
+    if (opts?.inputPath) inputPath = opts.inputPath;
+    if (!inputPath) throw new Error('Missing opts.inputPath!');
 
-  const handleJsFile = (file: string) => {
-    return require(file);
-  };
+    console.log(inputPath);
 
-  const handleTsFile = (file: string) => {
-    require('ts-node').register({
-      compilerOptions: {
-        module: 'commonjs',
-        target: 'es5',
-        lib: ['esnext', 'dom'],
-      },
-    });
+    const fileExt: '.ts' | '.js' = path.extname(inputPath);
+    if (!fileExt) throw new Error('Missing fileExt!');
 
-    return handleJsFile(file);
-  };
+    const handleJsFile = (file: string) => {
+      return require(file);
+    };
 
-  let inputFile;
+    const handleTsFile = (file: string) => {
+      require('ts-node').register({
+        compilerOptions: {
+          module: 'commonjs',
+          target: 'es5',
+          isolatedModules: false,
+          lib: ['esnext', 'dom'],
+        },
+      });
 
-  if (fileExt === '.js') {
-    inputFile = handleJsFile(inputPath);
-  } else if (fileExt === '.ts') {
-    inputFile = handleTsFile(inputPath);
-  }
+      return handleJsFile(file);
+    };
 
-  if (!inputFile) throw new Error('Missing inputFile!');
+    let inputFile;
 
-  // mege all const vars
-  const jsKv: IJsKv = {};
-
-  for (const [, fileValues] of Object.entries(inputFile)) {
-    for (const [key, val] of Object.entries(fileValues as IJsKv)) {
-      jsKv[key] = val;
+    if (fileExt === '.js') {
+      inputFile = handleJsFile(inputPath);
+    } else if (fileExt === '.ts') {
+      inputFile = handleTsFile(inputPath);
     }
-  }
 
-  if (opts?.outputCssPath) genCss(jsKv, opts);
-  if (opts?.outputLessPath) genLess(jsKv, opts);
+    if (!inputFile) throw new Error('Missing inputFile!');
+
+    // mege all const vars
+    const jsKv: IJsKv = {};
+
+    for (const [, fileValues] of Object.entries(inputFile)) {
+      // ignore string, only process object, MAYBE string is a export const var
+      if (typeof fileValues === 'object') {
+        for (const [key, val] of Object.entries(fileValues as IJsKv)) {
+          jsKv[key] = val;
+        }
+      }
+    }
+
+    if (opts?.outputCssPath) genCss(jsKv, opts);
+    if (opts?.outputLessPath) genLess(jsKv, opts);
+    if (opts?.outputTypePath) genType(jsKv, opts);
+  })
 };

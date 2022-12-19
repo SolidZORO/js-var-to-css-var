@@ -17,12 +17,6 @@ yarn add js-var-to-css-var
 ## Usage
 
 
-### for Node Cil
-
-```bash
-N/A
-```
-
 ### for Js
 
 
@@ -31,13 +25,22 @@ const jsVarToCssVar = require('js-var-to-css-var');
 
 jsVarToCssVar({
   inputPath: `${CUR_DIR}/styles/style--ts.ts`,
-  outputCssPath: `${CUR_DIR}/_output--ts/theme.css`,
-  outputLessPath: `${CUR_DIR}/_output--ts/theme.less`, // [Optional]
   //
-  cssScopeTag: ':root',
-  lessHeaderImport: `@import './variables.less';`, // [Optional]
+  outputCssPath: `${CUR_DIR}/_output--ts/theme.css`,
+  outputCssScopeTag: ':root',
+  //
+  outputLessPath: `${CUR_DIR}/_output--ts/theme.less`, // [Optional]
+  outputLessHeaderImport: `@import './variables.less';`, // [Optional]
+  //
 });
 
+```
+
+
+### for Node Cil (TODO)
+
+```bash
+N/A
 ```
 
 ## Result
