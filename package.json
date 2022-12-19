@@ -1,6 +1,6 @@
 {
   "name": "js-var-to-css-var",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/index.js",
   "sideEffect": false,
   "author": "Jason Feng <solidzoro@live.com>",
