@@ -39,7 +39,7 @@ jsVarToCssVar({
 ```
 
 
-### for Node Cil
+### for Node CLI
 
 ```bash
 TODO
@@ -111,12 +111,12 @@ import { IOverwriteAntdVars } from '@/styles/vars/overwrite-antd-vars--type';
 
 type ICssVars = IGlobalCssVars | IOverwriteAntdVars | string;
 
-export const getCssVar = (cssVar: ICssVars): string => {
+export const _getCssVar = (cssVar: ICssVars): string => {
   return getComputedStyle(document.documentElement).getPropertyValue(cssVar);
 };
 
-// use getCssVar Fn
-// getCssVar('--font    <-- here have IDE hint all css vars
+// use _getCssVar Fn
+// _getCssVar('--font    <-- here have IDE hint all css vars
 
 ```
 

@@ -1,15 +1,16 @@
 {
   "name": "js-var-to-css-var",
   "version": "1.0.0",
-  "main": "lib/index.js",
-  "sideEffect": false,
-  "author": "Jason Feng <solidzoro@live.com>",
   "description": "Convert Js Var To CSS Var",
-  "license": "MIT",
-  "homepage": "https://github.com/SolidZORO/js-var-to-css-var",
+  "sideEffect": false,
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "bin": {
     "js-var-to-css-var": "./lib/index.js"
   },
+  "author": "Jason Feng <solidzoro@live.com>",
+  "homepage": "https://github.com/SolidZORO/js-var-to-css-var",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/SolidZORO/js-var-to-css-var.git"
@@ -32,6 +33,8 @@
     "versionup:minor": "standard-version -r minor",
     "versionup:major": "standard-version -r major",
     "versionup:init": "standard-version --first-release",
+    "-------------------------------- CI/CD ----": "----",
+    "sync-dotenv-to-github-secrets": "node ./.github/workflows/sync-dotenv-to-github-secrets.js",
     "-------------------------------- TEST ----": "----",
     "test-output--ts": "node ./__tests__/test-output--ts.ts",
     "test-output--js": "node ./__tests__/test-output--js.js",
@@ -39,6 +42,7 @@
     "test-output--all": "yarn test-output--js && yarn test-output--ts && yarn test-output--js-by-ts-node",
     "dev": "tsc --watch",
     "-------------------------------- PROD ----": "----",
+    "build": "tsc",
     "release-beta": "npm publish --dist-tag --tag beta",
     "release": "npm publish --dist-tag"
   },

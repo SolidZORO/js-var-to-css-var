@@ -5,7 +5,7 @@ import { genCss } from './genCss';
 import { genLess } from './genLess';
 import { genType } from './genType';
 
-export const jsVarToCssVar = (optsList?: IJsVarToCssVarOpts[]) => {
+export function jsVarToCssVar(optsList?: IJsVarToCssVarOpts[]) {
   optsList?.forEach((opts) => {
     let inputPath = undefined;
     if (opts?.inputPath) inputPath = opts.inputPath;
@@ -59,4 +59,4 @@ export const jsVarToCssVar = (optsList?: IJsVarToCssVarOpts[]) => {
     if (opts?.outputLessPath) genLess(jsKv, opts);
     if (opts?.outputTypePath) genType(jsKv, opts);
   })
-};
+}

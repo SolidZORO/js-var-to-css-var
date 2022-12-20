@@ -7,3 +7,4 @@ import { jsVarToCssVar } from './jsVarToCssVar';
 
 export default jsVarToCssVar;
 module.exports = jsVarToCssVar;
+

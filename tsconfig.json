@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "lib",
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
@@ -21,12 +21,12 @@
     "isolatedModules": false,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
-//    "noEmit": true,
+    //    "noEmit": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
   "include": [
-    "src/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",

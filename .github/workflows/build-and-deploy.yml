@@ -1,0 +1,118 @@
+name: Github Actions Deploy
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - 'deploy'
+      - 'test'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+jobs:
+  build-and-deploy:
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    env:
+      __PKG_NAME__: 'NA'
+      __PKG_VERSION_NUM__: '0.0.0'
+      __PKG_VERSION_STR__: 'v0.0.0'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: 'Step Node Env'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+
+      #
+      # GEN .env
+      # ---------------------------------------------------------
+      - name: 'Gen All Github Secrets to `.env`'
+        run: |
+          echo "" > .env
+          echo "---- DOTENV-PLACEHOLDER-S ----"
+          echo CI_NPM_TOKEN=${{ secrets.CI_NPM_TOKEN }} >> .env
+          echo CI_GITHUB_TOKEN=${{ secrets.CI_GITHUB_TOKEN }} >> .env
+          echo "---- DOTENV-PLACEHOLDER-E ----"
+          cat .env
+
+
+      #
+      # GET INFO
+      # ---------------------------------------------------------
+      - name: 'Get Package Name'
+        run: |
+          PKG_NAME=$(echo $(node ./.github/workflows/ci-get-pkg-name.js))
+          echo $PKG_NAME
+          echo __PKG_NAME__=$PKG_NAME >> $GITHUB_ENV
+
+      - name: 'Get Package Version'
+        run: |
+          PKG_VERSION=$(echo $(node ./.github/workflows/ci-get-pkg-version.js))
+          echo $PKG_VERSION
+          echo __PKG_VERSION_NUM__=$PKG_VERSION >> $GITHUB_ENV
+          echo __PKG_VERSION_STR__=v$PKG_VERSION >> $GITHUB_ENV
+
+      - name: 'Get Changelog'
+        id: STEP_CHANGELOG
+        run: |
+          log=$(node ./.github/workflows/ci-get-changelog.js --tag=${{ env.__PKG_VERSION_NUM__ }})
+          echo $log >> CHANGELOG-${{ env.__PKG_VERSION_STR__ }}.md
+          cat CHANGELOG-${{ env.__PKG_VERSION_STR__ }}.md
+
+
+      #
+      # BUILD
+      # ---------------------------------------------------------
+      - name: 'Build'
+        run: |
+          yarn install && yarn build && ls -la
+          echo "\n\n---- LIST ./src ----" && find ./src
+          echo "\n\n---- LIST ./lib ----" && find ./lib
+          echo "\n\n"
+
+      - name: 'Compress Zip'
+        run: |
+          touch ${{ env.__PKG_VERSION_STR__ }}
+          zip -r "${{ env.__PKG_NAME__ }}_release_${{ env.__PKG_VERSION_STR__ }}.zip" \
+          lib/ \
+          README.md \
+          LICENSE \
+          CHANGELOG.md \
+          CHANGELOG-${{ env.__PKG_VERSION_STR__ }}.md \
+          package.json \
+          ${{ env.__PKG_VERSION_STR__ }}
+
+      - name: 'Upload Release'
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          body_path: CHANGELOG-${{ env.__PKG_VERSION_STR__ }}.md
+          files: |
+            ${{ env.__PKG_NAME__ }}_release_${{ env.__PKG_VERSION_STR__ }}.zip
+            CHANGELOG-${{ env.__PKG_VERSION_STR__ }}.md
+
+      #
+      # PUBLISH PACKAGE
+      # ---------------------------------------------------------
+      - name: 'Gen Secrets to `.npmrc`'
+        run: |
+          echo "" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.CI_NPM_TOKEN }}" >> .npmrc
+          echo "registry=https://registry.npmjs.org/" >> .npmrc
+          echo "always-auth=false" >> .npmrc
+
+      - name: 'Publish Package to NPM'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CI_NPM_TOKEN }}
+        run: yarn release
+
+      - name: 'Sync NPM Mirror'
+        run: |
+          curl --connect-timeout 5 --no-keepalive -X GET "https://npmmirror.com/sync/${{ env.__PKG_NAME__ }}"
