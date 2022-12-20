@@ -101,6 +101,18 @@ export type ITheme1 =
   | '--font-size-lg'
 ```
 
+## Built-in Utils
+
+```typescript jsx
+import {
+  _getCssVar,
+  _setCssVar,
+  _getCssPxToNumber,
+  IGetCssVarOpts,
+  IgetCssPxToNumberOpts,
+} from 'js-var-to-css-var/lib/utils';
+```
+
 ## Real World
 
 sample
