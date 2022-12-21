@@ -45,18 +45,30 @@ export function jsVarToCssVar(optsList?: IJsVarToCssVarOpts[]) {
 
     // mege all const vars
     const jsKv: IJsKv = {};
+    const jsKvDark: IJsKv = {};
+
+    const outputCssDarkVarSuffix = opts?.outputCssDarkVarSuffix || '--dark';
 
     for (const [, fileValues] of Object.entries(inputFile)) {
       // ignore string, only process object, MAYBE string is a export const var
       if (typeof fileValues === 'object') {
         for (const [key, val] of Object.entries(fileValues as IJsKv)) {
-          jsKv[key] = val;
+
+          if (
+            opts.outputCssDarkScopeTag &&
+            key.endsWith(outputCssDarkVarSuffix)
+          ) {
+            const keyDark = key.replace(outputCssDarkVarSuffix, '');
+            jsKvDark[keyDark] = val;
+          } else {
+            jsKv[key] = val;
+          }
         }
       }
     }
 
-    if (opts?.outputCssPath) genCss(jsKv, opts);
-    if (opts?.outputLessPath) genLess(jsKv, opts);
-    if (opts?.outputTypePath) genType(jsKv, opts);
+    if (opts?.outputCssPath) genCss({ jsKv, jsKvDark }, opts);
+    if (opts?.outputLessPath) genLess({ jsKv }, opts);
+    if (opts?.outputTypePath) genType({ jsKv }, opts);
   })
 }

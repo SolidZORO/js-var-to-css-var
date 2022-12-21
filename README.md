@@ -28,12 +28,14 @@ jsVarToCssVar({
   //
   outputCssPath: `${CUR_DIR}/_output--js/style--css-1.css`,
   outputCssScopeTag: ':root',
+  outputCssDarkScopeTag: ':root.dark',                          // [Optional] 
+  outputCssDarkVarSuffix: '--dark',                             // [Optional]
   //
   outputLessPath: `${CUR_DIR}/_output--js/style--less-1.less`,  // [Optional]
-  outputLessHeaderImport: `@import './variables.less';`, // [Optional]
+  outputLessHeaderImport: `@import './variables.less';`,        // [Optional]
   //
-  outputTypePath: `${CUR_DIR}/_output--js/style--type-1.ts`,  // [Optional]
-  outputTypeName: 'ITheme1',  // [Optional]
+  outputTypePath: `${CUR_DIR}/_output--js/style--type-1.ts`,    // [Optional]
+  outputTypeName: 'ITheme1',                                    // [Optional]
 });
 
 ```
@@ -53,6 +55,8 @@ Input
 export const THEME_JS_COLOR = {
   '--color-red': '#f99',
   '--color-blue': '#1f9cff',
+  '--text-color': '#c70000',
+  '--text-color--dark': '#ffa4a4',
 };
 
 export const THEME_JS_FONT = {
@@ -73,6 +77,11 @@ css
   --font-size-xs: 12px;
   --font-size-md: 18px;
   --font-size-lg: 24px;
+  --text-color: #c70000;
+}
+
+:root.dark {
+  --text-color: #ffa4a4;
 }
 ```
 
@@ -86,6 +95,7 @@ less
 @font-size-xs: 12px;
 @font-size-md: 18px;
 @font-size-lg: 24px;
+@text-color: #c70000;
 ```
 
 type
@@ -99,6 +109,7 @@ export type ITheme1 =
   | '--font-size-xs'
   | '--font-size-md'
   | '--font-size-lg'
+  | '--text-color'
 ```
 
 ## Built-in Utils
@@ -121,9 +132,9 @@ sample
 import { IGlobalCssVars } from '@/styles/vars/global-css-vars--type';
 import { IOverwriteAntdVars } from '@/styles/vars/overwrite-antd-vars--type';
 
-type ICssVars = IGlobalCssVars | IOverwriteAntdVars | string;
+type IAllCssVars = IGlobalCssVars | IOverwriteAntdVars | string;
 
-export const _getCssVar = (cssVar: ICssVars): string => {
+export const _getCssVar = (cssVar: IAllCssVars): string => {
   return getComputedStyle(document.documentElement).getPropertyValue(cssVar);
 };
 
