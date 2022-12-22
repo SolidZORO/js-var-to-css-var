@@ -9,8 +9,6 @@ export type ITheme2 =
   | '--pos-top'
   | '--theme-light'
   | '--theme-dark'
-  | '--text-color'
-  | '--bg-color'
   | '--font-size-xs'
   | '--font-size-md'
   | '--font-size-lg'

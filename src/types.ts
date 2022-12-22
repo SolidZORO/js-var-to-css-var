@@ -15,11 +15,13 @@ export interface IJsVarToCssVarOpts {
   outputCssDarkScopeTag?: string; // ':root.dark'
   outputCssDarkVarSuffix?: string; // '--dark'
   //
-  outputLessPath?: string; // `${CUR_DIR}/_output--js/theme.less`    // [Optional]
-  outputLessHeaderImport?: string; // `@import './variables.less';`  // [Optional]
+  outputLessPath?: string; // `${CUR_DIR}/_output--js/theme.less`   // [Optional]
+  outputLessHeaderImport?: string; // `@import './variables.less';` // [Optional]
+  outputLessIgnoreCssDarkVar?: boolean;                             // [Optional]
   //
-  outputTypePath?: string; // `${CUR_DIR}/_output--js/theme.ts`      // [Optional]
-  outputTypeName?: string; // 'ITheme',                              // [Optional]
+  outputTypePath?: string; // `${CUR_DIR}/_output--js/theme.ts`     // [Optional]
+  outputTypeName?: string; // 'ITheme',                             // [Optional]
+  outputTypeIgnoreCssDarkVar?: boolean;                             // [Optional]
   //
 }
 

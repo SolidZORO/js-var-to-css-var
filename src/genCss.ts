@@ -14,14 +14,14 @@ export const genCss = async (jsKvObj: IJsKvObj, opts?: IJsVarToCssVarOpts) => {
   let CONTENT = '';
 
   for (const k in jsKvObj?.jsKv) {
-    if (!k) return;
+    if (k) {
+      let v = jsKvObj.jsKv[k];
 
-    let v = jsKvObj.jsKv[k];
+      // filter less syntax
+      if (typeof v === 'string') v = v.replace('~', '');
 
-    // filter less syntax
-    if (typeof v === 'string') v = v.replace('~', '');
-
-    CONTENT += `  ${k}: ${v};\n`;
+      CONTENT += `  ${k}: ${v};\n`;
+    }
   }
 
   const CONTENT_CLOSE = `}\n`;
@@ -33,14 +33,14 @@ export const genCss = async (jsKvObj: IJsKvObj, opts?: IJsVarToCssVarOpts) => {
     let SCOPE_DARK = `${opts.outputCssDarkScopeTag} {\n`;
 
     for (const k in jsKvObj?.jsKvDark) {
-      if (!k) return;
+      if (k) {
+        let v = jsKvObj.jsKvDark[k];
 
-      let v = jsKvObj.jsKvDark[k];
+        // filter less syntax
+        if (typeof v === 'string') v = v.replace('~', '');
 
-      // filter less syntax
-      if (typeof v === 'string') v = v.replace('~', '');
-
-      CONTENT_DARK += `  ${k}: ${v};\n`;
+        CONTENT_DARK += `  ${k}: ${v};\n`;
+      }
     }
 
     RESULT += `\n${SCOPE_DARK}${CONTENT_DARK}${CONTENT_CLOSE}`;

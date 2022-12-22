@@ -33,9 +33,12 @@ jsVarToCssVar({
   //
   outputLessPath: `${CUR_DIR}/_output--js/style--less-1.less`,  // [Optional]
   outputLessHeaderImport: `@import './variables.less';`,        // [Optional]
+  outputLessIgnoreCssDarkVar: false,                            // [Optional]
+  
   //
   outputTypePath: `${CUR_DIR}/_output--js/style--type-1.ts`,    // [Optional]
   outputTypeName: 'ITheme1',                                    // [Optional]
+  outputTypeIgnoreCssDarkVar: false,                            // [Optional]
 });
 
 ```

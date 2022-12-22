@@ -68,7 +68,7 @@ export function jsVarToCssVar(optsList?: IJsVarToCssVarOpts[]) {
     }
 
     if (opts?.outputCssPath) genCss({ jsKv, jsKvDark }, opts);
-    if (opts?.outputLessPath) genLess({ jsKv }, opts);
-    if (opts?.outputTypePath) genType({ jsKv }, opts);
+    if (opts?.outputLessPath) genLess({ jsKv, jsKvDark }, opts);
+    if (opts?.outputTypePath) genType({ jsKv, jsKvDark }, opts);
   })
 }

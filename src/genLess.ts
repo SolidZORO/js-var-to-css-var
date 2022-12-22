@@ -13,13 +13,25 @@ export const genLess = async (jsKvObj: IJsKvObj, opts?: IJsVarToCssVarOpts) => {
     HEADER = `${__CODE_GEN_COMMENT__}\n${opts?.outputLessHeaderImport}\n\n`;
   }
 
+  // clone kv
+  const jsKv = { ...jsKvObj.jsKv };
+
+  // ignoreCssDarkVar
+  if (opts?.outputLessIgnoreCssDarkVar) {
+    for (const k in jsKvObj.jsKvDark) {
+      if (k in jsKv) {
+        delete jsKv[k]
+      }
+    }
+  }
+
   let CONTENT = '';
 
-  for (const k in jsKvObj.jsKv) {
-    if (!k) return;
-
-    const v = jsKvObj.jsKv[k];
-    CONTENT += `${k.replace('--', '@')}: ${v};\n`;
+  for (const k in jsKv) {
+    if (k) {
+      const v = jsKvObj.jsKv[k];
+      CONTENT += `${k.replace('--', '@')}: ${v};\n`;
+    }
   }
 
   const FOOTER = ``;

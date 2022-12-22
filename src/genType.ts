@@ -12,10 +12,22 @@ export const genType = async (jsKvObj: IJsKvObj, opts?: IJsVarToCssVarOpts) => {
 
   let CONTENT = `export type ${opts.outputTypeName} =\n`;
 
-  for (const k in jsKvObj.jsKv) {
-    if (!k) return;
+  // clone kv
+  const jsKv = { ...jsKvObj.jsKv };
 
-    CONTENT += `  | '${k}'\n`;
+  // ignoreCssDarkVar
+  if (opts?.outputTypeIgnoreCssDarkVar) {
+    for (const k in jsKvObj.jsKvDark) {
+      if (k in jsKv) {
+        delete jsKv[k]
+      }
+    }
+  }
+
+  for (const k in jsKv) {
+    if (k) {
+      CONTENT += `  | '${k}'\n`;
+    }
   }
 
   const FOOTER = `\n`;
