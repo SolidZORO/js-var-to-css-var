@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/SolidZORO/js-var-to-css-var/compare/v1.1.1...v1.1.2) (2022-12-22)
+
+
+### Features
+
+* add opts `outputLessIgnoreCssDarkVar`, `outputTypeIgnoreCssDarkVar` ([7e36d7c](https://github.com/SolidZORO/js-var-to-css-var/commit/7e36d7cc7a78a3e9e6fb1809e31a5ff96b7383eb))
+
 ### [1.1.1](https://github.com/SolidZORO/js-var-to-css-var/compare/v1.1.0...v1.1.1) (2022-12-21)
 
 
